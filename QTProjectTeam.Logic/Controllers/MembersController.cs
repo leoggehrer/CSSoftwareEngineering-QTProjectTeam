@@ -1,6 +1,6 @@
 ﻿namespace QTProjectTeam.Logic.Controllers
 {
-    public class MembersController : GenericController<Entities.Project>
+    public class MembersController : GenericController<Entities.Member>
     {
         public MembersController()
         {
