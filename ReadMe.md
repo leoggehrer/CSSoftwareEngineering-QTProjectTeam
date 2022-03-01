@@ -30,7 +30,7 @@ Das Datenmodell für ***QTProjectTeam*** hat folgenden Aufbau:
 
 ```
 
-### Definition von ***Author***
+### Definition von ***Project***
 
 | Name | Type | MaxLength | Nullable |Unique|Db-Field|Access|
 |------|------|-----------|----------|------|--------|------|
@@ -125,7 +125,7 @@ All diese Geschäftsregeln müssen mit **UnitTests** überprüft werden. Fügen 
 
 Erstellen Sie für die folgenden Entitäten Ansichten im AspMvc-Projekt:
 
-> Der Kontroller ***AuthorsContoller*** ist bereits erstellt.
+> Der Kontroller ***ProjectsContoller*** ist bereits erstellt.
 
 - Projekt 
   - ListView - Übersicht der Projekte
@@ -133,7 +133,7 @@ Erstellen Sie für die folgenden Entitäten Ansichten im AspMvc-Projekt:
   - Edit - Bearbeiten eines Projektes
   - Delete - Löschen eines Projektes mit Rückfrage
 
-> Erstellen Sie den ***ProjectsController*** nach dem gleichem Schema von ***MembersController***.
+> Erstellen Sie den ***MembersController*** nach dem gleichem Schema von ***ProjectsController***.
    
 - Member 
   - ListView - Übersicht der Mitglieder
