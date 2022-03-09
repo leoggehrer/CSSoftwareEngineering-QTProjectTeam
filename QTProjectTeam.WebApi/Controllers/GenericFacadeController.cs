@@ -7,36 +7,32 @@ namespace QTProjectTeam.WebApi.Controllers
     /// <summary>
     /// A generic one for the standard CRUD operations.
     /// </summary>
-    /// <typeparam name="TEntity">The type of entity</typeparam>
+    /// <typeparam name="TFasadeModel">The type of entity</typeparam>
     /// <typeparam name="TEditModel">The type of edit model</typeparam>
-    /// <typeparam name="TModel">The type of model</typeparam>
+    /// <typeparam name="TOutModel">The type of model</typeparam>
     [ApiController]
     [Route("api/[controller]")]
-    public abstract partial class GenericController<TEntity, TEditModel, TModel> : ControllerBase, IDisposable
-        where TEntity : Logic.Entities.IdentityEntity, new()
+    public abstract partial class GenericFacadeController<TFasadeModel, TEditModel, TOutModel> : ControllerBase, IDisposable
+        where TFasadeModel : class, Logic.IIdentifyable, new()
         where TEditModel : class, new()
-        where TModel : class, new()
+        where TOutModel : class, new()
     {
         private bool disposedValue;
 
-        protected Logic.Controllers.GenericController<TEntity> EntityController { get; init; }
+        protected Logic.IDataAccess<TFasadeModel> Fasade { get; init; }
 
-        internal GenericController(Logic.Controllers.GenericController<TEntity> controller)
+        internal GenericFacadeController(Logic.IDataAccess<TFasadeModel> fasade)
         {
-            if (controller is null)
-            {
-                throw new ArgumentNullException(nameof(controller));
-            }
-            EntityController = controller;
+            Fasade = fasade;
         }
         /// <summary>
         /// Converts an entity to a model and copies all properties of the same name from the entity to the model.
         /// </summary>
         /// <param name="entity">The entity to be converted</param>
         /// <returns>The model with the property values of the same name</returns>
-        protected virtual TModel ToModel(TEntity entity)
+        protected virtual TOutModel ToOutModel(TFasadeModel entity)
         {
-            var result = new TModel();
+            var result = new TOutModel();
 
             result.CopyFrom(entity);
             return result;
@@ -46,13 +42,13 @@ namespace QTProjectTeam.WebApi.Controllers
         /// </summary>
         /// <param name="entities">The entities to be converted</param>
         /// <returns>The models</returns>
-        protected virtual IEnumerable<TModel> ToModel(IEnumerable<TEntity> entities)
+        protected virtual IEnumerable<TOutModel> ToOutModel(IEnumerable<TFasadeModel> entities)
         {
-            var result = new List<TModel>();
+            var result = new List<TOutModel>();
 
             foreach (var entity in entities)
             {
-                result.Add(ToModel(entity));
+                result.Add(ToOutModel(entity));
             }
             return result;
         }
@@ -63,11 +59,11 @@ namespace QTProjectTeam.WebApi.Controllers
         /// <returns>List of models</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public virtual async Task<ActionResult<IEnumerable<TModel>>> GetAsync()
+        public virtual async Task<ActionResult<IEnumerable<TOutModel>>> GetAsync()
         {
-            var entities = await EntityController.GetAllAsync();
+            var entities = await Fasade.GetAllAsync();
 
-            return Ok(ToModel(entities));
+            return Ok(ToOutModel(entities));
         }
 
         /// <summary>
@@ -79,11 +75,11 @@ namespace QTProjectTeam.WebApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public virtual async Task<ActionResult<TModel?>> GetAsync(int id)
+        public virtual async Task<ActionResult<TOutModel?>> GetAsync(int id)
         {
-            var entity = await EntityController.GetByIdAsync(id);
+            var entity = await Fasade.GetByIdAsync(id);
 
-            return entity == null ? NotFound() : Ok(ToModel(entity));
+            return entity == null ? NotFound() : Ok(ToOutModel(entity));
         }
 
         /// <summary>
@@ -94,16 +90,16 @@ namespace QTProjectTeam.WebApi.Controllers
         /// <response code="201">Model created</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public virtual async Task<ActionResult<TModel>> PostAsync([FromBody] TEditModel model)
+        public virtual async Task<ActionResult<TOutModel>> PostAsync([FromBody] TEditModel model)
         {
-            var entity = new TEntity();
+            var entity = new TFasadeModel();
 
             entity.CopyFrom(model);
-            var insertEntity = await EntityController.InsertAsync(entity);
+            var insertEntity = await Fasade.InsertAsync(entity);
 
-            await EntityController.SaveChangesAsync();
+            await Fasade.SaveChangesAsync();
 
-            return CreatedAtAction("Get", new { id = entity.Id }, ToModel(insertEntity));
+            return CreatedAtAction("Get", new { id = entity.Id }, ToOutModel(insertEntity));
         }
 
         /// <summary>
@@ -117,17 +113,17 @@ namespace QTProjectTeam.WebApi.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public virtual async Task<ActionResult<TModel>> PutAsync(int id, [FromBody] TEditModel model)
+        public virtual async Task<ActionResult<TOutModel>> PutAsync(int id, [FromBody] TEditModel model)
         {
-            var entity = await EntityController.GetByIdAsync(id);
+            var entity = await Fasade.GetByIdAsync(id);
 
             if (entity != null)
             {
                 entity.CopyFrom(model);
-                await EntityController.UpdateAsync(entity);
-                await EntityController.SaveChangesAsync();
+                await Fasade.UpdateAsync(entity);
+                await Fasade.SaveChangesAsync();
             }
-            return entity == null ? NotFound() : Ok(ToModel(entity));
+            return entity == null ? NotFound() : Ok(ToOutModel(entity));
         }
 
         /// <summary>
@@ -141,12 +137,12 @@ namespace QTProjectTeam.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public virtual async Task<ActionResult> DeleteAsync(int id)
         {
-            var entity = await EntityController.GetByIdAsync(id);
+            var entity = await Fasade.GetByIdAsync(id);
 
             if (entity != null)
             {
-                await EntityController.DeleteAsync(entity.Id);
-                await EntityController.SaveChangesAsync();
+                await Fasade.DeleteAsync(entity.Id);
+                await Fasade.SaveChangesAsync();
             }
             return entity == null ? NotFound() : NoContent();
         }
@@ -159,7 +155,7 @@ namespace QTProjectTeam.WebApi.Controllers
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects)
-                    EntityController.Dispose();
+                    Fasade.Dispose();
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer

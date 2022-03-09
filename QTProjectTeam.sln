@@ -1,26 +1,28 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9301097B-17D3-4899-8133-795FEFF13D92}") = "QTProjectTeam.Logic", "QTProjectTeam.Logic\QTProjectTeam.Logic.csproj", "{4BA6D589-2D38-4527-BD59-B827DAB0D5F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QTProjectTeam.Logic", "QTProjectTeam.Logic\QTProjectTeam.Logic.csproj", "{4BA6D589-2D38-4527-BD59-B827DAB0D5F4}"
 EndProject
-Project("{826D596F-A39F-44CF-BB65-FD8D76419631}") = "QTProjectTeam.ConApp", "QTProjectTeam.ConApp\QTProjectTeam.ConApp.csproj", "{BA9F6754-9315-4674-AB53-34CB4BB5F30B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QTProjectTeam.ConApp", "QTProjectTeam.ConApp\QTProjectTeam.ConApp.csproj", "{BA9F6754-9315-4674-AB53-34CB4BB5F30B}"
 EndProject
-Project("{54C4DB8E-DDBE-4E76-9572-92149F387057}") = "QTProjectTeam.WebApi", "QTProjectTeam.WebApi\QTProjectTeam.WebApi.csproj", "{A75A5F5C-82CC-447B-A96D-242738B70C55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QTProjectTeam.WebApi", "QTProjectTeam.WebApi\QTProjectTeam.WebApi.csproj", "{A75A5F5C-82CC-447B-A96D-242738B70C55}"
 EndProject
-Project("{9AD67BA0-A1F4-4401-9080-D5C1A5E9CA58}") = "CommonBase", "CommonBase\CommonBase.csproj", "{5D5C4E63-A490-4AD3-8B36-7CF49A5F5937}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonBase", "CommonBase\CommonBase.csproj", "{5D5C4E63-A490-4AD3-8B36-7CF49A5F5937}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}")="SolutionItems","SolutionItems","{7D1E32D0-6289-41AB-B44D-31F87C0C21A2}"
-	ProjectSection(SolutionItems)=preProject
-		AspMvcDataFlow.md=AspMvcDataFlow.md
-		MultiTierArchitecture.md=MultiTierArchitecture.md
-		ReadMe.md=ReadMe.md
-		WebApiDataFlow.md=WebApiDataFlow.md
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{7D1E32D0-6289-41AB-B44D-31F87C0C21A2}"
+	ProjectSection(SolutionItems) = preProject
+		AspMvcDataFlow.md = AspMvcDataFlow.md
+		MultiTierArchitecture.md = MultiTierArchitecture.md
+		ReadMe.md = ReadMe.md
+		WebApiDataFlow.md = WebApiDataFlow.md
+	EndProjectSection
 EndProject
-Project("{9A859366-0F52-448B-9AA0-14778FBC7723}") = "QTProjectTeam.WpfApp", "QTProjectTeam.WpfApp\QTProjectTeam.WpfApp.csproj", "{11E41372-993D-48EA-85EB-290BD727A3E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QTProjectTeam.WpfApp", "QTProjectTeam.WpfApp\QTProjectTeam.WpfApp.csproj", "{11E41372-993D-48EA-85EB-290BD727A3E6}"
 EndProject
-Project("{6E70672F-7EBA-404F-8534-02DBC902305C}") = "QTProjectTeam.AspMvc", "QTProjectTeam.AspMvc\QTProjectTeam.AspMvc.csproj", "{F32EA400-BBCC-4F3C-8A2B-882A20C9C1E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QTProjectTeam.AspMvc", "QTProjectTeam.AspMvc\QTProjectTeam.AspMvc.csproj", "{F32EA400-BBCC-4F3C-8A2B-882A20C9C1E8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QTProjectTeam.Logic.UnitTest", "QTProjectTeam.Logic.UnitTest\QTProjectTeam.Logic.UnitTest.csproj", "{F7916F61-D4B9-4D1E-AA5D-BCF0ED538507}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +54,10 @@ Global
 		{F32EA400-BBCC-4F3C-8A2B-882A20C9C1E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F32EA400-BBCC-4F3C-8A2B-882A20C9C1E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F32EA400-BBCC-4F3C-8A2B-882A20C9C1E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7916F61-D4B9-4D1E-AA5D-BCF0ED538507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7916F61-D4B9-4D1E-AA5D-BCF0ED538507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7916F61-D4B9-4D1E-AA5D-BCF0ED538507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7916F61-D4B9-4D1E-AA5D-BCF0ED538507}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

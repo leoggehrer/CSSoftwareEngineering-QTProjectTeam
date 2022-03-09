@@ -7,6 +7,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add logic controllers
+builder.Services.AddTransient<QTProjectTeam.Logic.Controllers.ProjectsController>();
+builder.Services.AddTransient<QTProjectTeam.Logic.Controllers.MembersController>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

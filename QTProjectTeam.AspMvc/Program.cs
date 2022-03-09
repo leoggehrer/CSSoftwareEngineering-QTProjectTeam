@@ -3,6 +3,10 @@
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Add logic controllers
+builder.Services.AddTransient<QTProjectTeam.Logic.Controllers.ProjectsController>();
+builder.Services.AddTransient<QTProjectTeam.Logic.Controllers.MembersController>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

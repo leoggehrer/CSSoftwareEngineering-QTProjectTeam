@@ -13,12 +13,7 @@ namespace QTProjectTeam.AspMvc.Controllers
 
         protected GenericController(Logic.Controllers.GenericController<TEntity> controller)
         {
-            if (controller == null)
-            {
-                throw new ArgumentNullException(nameof(controller));
-            }
-
-            this.controller = controller;
+            this.controller = controller ?? throw new ArgumentNullException(nameof(controller));
         }
 
         private static TModel ToModel(TEntity entity)
@@ -171,21 +166,24 @@ namespace QTProjectTeam.AspMvc.Controllers
         {
             var entity = await controller.GetByIdAsync(id);
 
-            try
+            if (entity != null)
             {
-                await controller.DeleteAsync(id);
-                await controller.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = ex.Message;
-
-                if (ex.InnerException != null)
+                try
                 {
-                    ViewBag.Error = ex.InnerException.Message;
+                    await controller.DeleteAsync(id);
+                    await controller.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Error = ex.Message;
+
+                    if (ex.InnerException != null)
+                    {
+                        ViewBag.Error = ex.InnerException.Message;
+                    }
                 }
             }
-            return RedirectToAction(nameof(Index));
+            return ViewBag.Error != null ? View(ToModel(entity)) : RedirectToAction(nameof(Index));
         }
 
         protected override void Dispose(bool disposing)

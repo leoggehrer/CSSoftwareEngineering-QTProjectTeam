@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QTProjectTeam.WebApi.Models
 {
-    public abstract partial class IdentityModel
+    public abstract partial class IdentityModel : Logic.IIdentifyable
     {
         /// <summary>
         /// ID of the entity (primary key)
