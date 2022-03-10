@@ -1,4 +1,5 @@
 ﻿using QTProjectTeam.Logic.Entities;
+using System.Linq.Dynamic.Core;
 
 namespace QTProjectTeam.Logic.Controllers
 {
@@ -12,6 +13,20 @@ namespace QTProjectTeam.Logic.Controllers
         {
         }
 
+        public IQueryable<Project> QueryBy(string? number, string? name)
+        {
+            IQueryable<Project> result = EntitySet;
+
+            if (string.IsNullOrEmpty(number) == false)
+            {
+                result = result.Where(p => p.Number.ToUpper() == number.ToUpper());
+            }
+            if (string.IsNullOrEmpty(name) == false)
+            {
+                result = result.Where(p => p.Name.ToLower().Contains(name.ToLower()));
+            }
+            return result;
+        }
         public override Task<Project> InsertAsync(Project entity)
         {
             CheckEntity(entity);

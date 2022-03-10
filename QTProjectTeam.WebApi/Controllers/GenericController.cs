@@ -19,7 +19,7 @@ namespace QTProjectTeam.WebApi.Controllers
     {
         private bool disposedValue;
 
-        protected Logic.Controllers.GenericController<TEntity> EntityController { get; init; }
+        protected Logic.Controllers.GenericController<TEntity> Controller { get; init; }
 
         internal GenericController(Logic.Controllers.GenericController<TEntity> controller)
         {
@@ -27,7 +27,7 @@ namespace QTProjectTeam.WebApi.Controllers
             {
                 throw new ArgumentNullException(nameof(controller));
             }
-            EntityController = controller;
+            Controller = controller;
         }
         /// <summary>
         /// Converts an entity to a model and copies all properties of the same name from the entity to the model.
@@ -65,7 +65,7 @@ namespace QTProjectTeam.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public virtual async Task<ActionResult<IEnumerable<TModel>>> GetAsync()
         {
-            var entities = await EntityController.GetAllAsync();
+            var entities = await Controller.GetAllAsync();
 
             return Ok(ToModel(entities));
         }
@@ -81,7 +81,7 @@ namespace QTProjectTeam.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public virtual async Task<ActionResult<TModel?>> GetAsync(int id)
         {
-            var entity = await EntityController.GetByIdAsync(id);
+            var entity = await Controller.GetByIdAsync(id);
 
             return entity == null ? NotFound() : Ok(ToModel(entity));
         }
@@ -99,9 +99,9 @@ namespace QTProjectTeam.WebApi.Controllers
             var entity = new TEntity();
 
             entity.CopyFrom(model);
-            var insertEntity = await EntityController.InsertAsync(entity);
+            var insertEntity = await Controller.InsertAsync(entity);
 
-            await EntityController.SaveChangesAsync();
+            await Controller.SaveChangesAsync();
 
             return CreatedAtAction("Get", new { id = entity.Id }, ToModel(insertEntity));
         }
@@ -119,13 +119,13 @@ namespace QTProjectTeam.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public virtual async Task<ActionResult<TModel>> PutAsync(int id, [FromBody] TEditModel model)
         {
-            var entity = await EntityController.GetByIdAsync(id);
+            var entity = await Controller.GetByIdAsync(id);
 
             if (entity != null)
             {
                 entity.CopyFrom(model);
-                await EntityController.UpdateAsync(entity);
-                await EntityController.SaveChangesAsync();
+                await Controller.UpdateAsync(entity);
+                await Controller.SaveChangesAsync();
             }
             return entity == null ? NotFound() : Ok(ToModel(entity));
         }
@@ -141,12 +141,12 @@ namespace QTProjectTeam.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public virtual async Task<ActionResult> DeleteAsync(int id)
         {
-            var entity = await EntityController.GetByIdAsync(id);
+            var entity = await Controller.GetByIdAsync(id);
 
             if (entity != null)
             {
-                await EntityController.DeleteAsync(entity.Id);
-                await EntityController.SaveChangesAsync();
+                await Controller.DeleteAsync(entity.Id);
+                await Controller.SaveChangesAsync();
             }
             return entity == null ? NotFound() : NoContent();
         }
@@ -159,7 +159,7 @@ namespace QTProjectTeam.WebApi.Controllers
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects)
-                    EntityController.Dispose();
+                    Controller.Dispose();
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer
