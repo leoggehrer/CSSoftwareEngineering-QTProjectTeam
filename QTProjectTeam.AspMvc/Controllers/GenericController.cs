@@ -9,32 +9,33 @@ namespace QTProjectTeam.AspMvc.Controllers
         where TEntity : Logic.Entities.IdentityEntity, new()
         where TModel : class, new()
     {
-        private readonly Logic.Controllers.GenericController<TEntity> controller;
+        protected Logic.Controllers.GenericController<TEntity> Controller { get; init; }
 
         protected GenericController(Logic.Controllers.GenericController<TEntity> controller)
         {
-            this.controller = controller ?? throw new ArgumentNullException(nameof(controller));
+            this.Controller = controller ?? throw new ArgumentNullException(nameof(controller));
         }
 
-        private static TModel ToModel(TEntity entity)
+        protected virtual TModel ToModel(TEntity entity)
         {
             var result = new TModel();
 
             result.CopyFrom(entity);
-            return result;
+            return BeforeView(result);
         }
-        private static TEntity ToEntity(TModel model)
+        protected virtual TEntity ToEntity(TModel model)
         {
             var result = new TEntity();
 
             result.CopyFrom(model);
             return result;
         }
+        protected virtual TModel BeforeView(TModel model) => model;
 
         // GET: Item
         public virtual async Task<IActionResult> Index()
         {
-            var entities = await controller.GetAllAsync();
+            var entities = await Controller.GetAllAsync();
 
             return View(entities.Select(e => ToModel(e)));
         }
@@ -47,7 +48,7 @@ namespace QTProjectTeam.AspMvc.Controllers
                 return NotFound();
             }
 
-            var genre = await controller.GetByIdAsync(id.Value);
+            var genre = await Controller.GetByIdAsync(id.Value);
             if (genre == null)
             {
                 return NotFound();
@@ -58,7 +59,9 @@ namespace QTProjectTeam.AspMvc.Controllers
         // GET: Item/Create
         public virtual IActionResult Create()
         {
-            return View();
+            var entity = new TEntity();
+
+            return View(ToModel(entity));
         }
 
         // POST: Item/Create
@@ -68,12 +71,14 @@ namespace QTProjectTeam.AspMvc.Controllers
         [ValidateAntiForgeryToken]
         public virtual async Task<IActionResult> Create(TModel model)
         {
+            TEntity entity = ToEntity(model);
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await controller.InsertAsync(ToEntity(model));
-                    await controller.SaveChangesAsync();
+                    await Controller.InsertAsync(entity);
+                    await Controller.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
@@ -86,7 +91,7 @@ namespace QTProjectTeam.AspMvc.Controllers
                     }
                 }
             }
-            return View(model);
+            return View(ToModel(entity));
         }
 
         // GET: Item/Edit/5
@@ -97,7 +102,7 @@ namespace QTProjectTeam.AspMvc.Controllers
                 return NotFound();
             }
 
-            var entity = await controller.GetByIdAsync(id.Value);
+            var entity = await Controller.GetByIdAsync(id.Value);
 
             if (entity == null)
             {
@@ -113,7 +118,7 @@ namespace QTProjectTeam.AspMvc.Controllers
         [ValidateAntiForgeryToken]
         public virtual async Task<IActionResult> Edit(int id, TModel model)
         {
-            var entity = await controller.GetByIdAsync(id);
+            var entity = await Controller.GetByIdAsync(id);
 
             if (entity == null)
             {
@@ -126,8 +131,8 @@ namespace QTProjectTeam.AspMvc.Controllers
             {
                 try
                 {
-                    entity = await controller.UpdateAsync(entity);
-                    await controller.SaveChangesAsync();
+                    entity = await Controller.UpdateAsync(entity);
+                    await Controller.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
@@ -151,7 +156,8 @@ namespace QTProjectTeam.AspMvc.Controllers
                 return NotFound();
             }
 
-            var entity = await controller.GetByIdAsync(id.Value);
+            var entity = await Controller.GetByIdAsync(id.Value);
+
             if (entity == null)
             {
                 return NotFound();
@@ -164,14 +170,14 @@ namespace QTProjectTeam.AspMvc.Controllers
         [ValidateAntiForgeryToken]
         public virtual async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var entity = await controller.GetByIdAsync(id);
+            var entity = await Controller.GetByIdAsync(id);
 
             if (entity != null)
             {
                 try
                 {
-                    await controller.DeleteAsync(id);
-                    await controller.SaveChangesAsync();
+                    await Controller.DeleteAsync(id);
+                    await Controller.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
@@ -188,7 +194,7 @@ namespace QTProjectTeam.AspMvc.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            controller?.Dispose();
+            Controller?.Dispose();
             base.Dispose(disposing);
         }
     }
