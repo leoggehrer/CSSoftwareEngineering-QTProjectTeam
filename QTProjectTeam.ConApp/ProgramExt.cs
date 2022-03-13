@@ -19,7 +19,7 @@ namespace QTProjectTeam.ConApp
             var memberFaker = new Faker<Logic.Entities.Member>()
                                 .RuleFor(m => m.Lastname, f => f.Name.LastName())
                                 .RuleFor(m => m.Firstname, f => f.Name.FirstName());
-            var projects = projectFaker.Generate(50);
+            var projects = projectFaker.Generate(10);
 
             Task.Run(async () =>
             {

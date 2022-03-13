@@ -43,12 +43,12 @@ namespace QTProjectTeam.Logic.Controllers
         }
         private static void CheckEntity(Member entity)
         {
-            if (string.IsNullOrEmpty(entity.Firstname) == false && entity.Firstname.Length < 3)
+            if (string.IsNullOrEmpty(entity.Firstname) || entity.Firstname.Length < 3)
             {
                 throw new Modules.Exceptions.LogicException($"First name must be at least 3 characters long.");
             }
 
-            if (string.IsNullOrEmpty(entity.Lastname) == false && entity.Lastname.Length < 3)
+            if (string.IsNullOrEmpty(entity.Lastname) || entity.Lastname.Length < 3)
             {
                 throw new Modules.Exceptions.LogicException($"Last name must be at least 3 characters long.");
             }

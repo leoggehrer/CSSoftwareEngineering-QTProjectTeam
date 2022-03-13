@@ -133,8 +133,8 @@ Erstellen Sie einen REST-Service Zugriff für die Entitäten ***'Project'*** und
 - Einen ***Kontroller*** mit den folgenden Operationen  
   - Abfrage alle Projekte  
   - Abfrage eines Projectes mit der Id  
-  - Erstellen eines Projektes (Name, Number, Description, Members)  
-  - Änderung eines Kontaktes (Name, Number, Description, Members)  
+  - Erstellen eines Projektes (Name, Number, Description)  
+  - Änderung eines Projekte (Name, Number, Description)  
   - Löschen eines Projectes  
   
 - Ein ***Model*** für die Entität ***'Member'***.  
@@ -142,7 +142,7 @@ Erstellen Sie einen REST-Service Zugriff für die Entitäten ***'Project'*** und
   - Abfrage alle Mitglieder  
   - Abfrage eines Mitgliedes mit der Id  
   - Erstellen eines Mitgliedes (Firstname, Lastname, Note, ProjectId)  
-  - Änderung eines Kontaktes (Firstname, Lastname, Note, ProjectId)  
+  - Änderung eines Mitgliedes (Firstname, Lastname, Note, ProjectId)  
   - Löschen eines Mitgliedes  
   
 Prüfen Sie mit dem Werkzeug Swagger die REST-Schnittstelle.  

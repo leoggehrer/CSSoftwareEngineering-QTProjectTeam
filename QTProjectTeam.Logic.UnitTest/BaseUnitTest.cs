@@ -15,6 +15,7 @@ namespace QTProjectTeam.Logic.UnitTest
             {
                 await memberCtrl.DeleteAsync(item.Id);
             }
+            await memberCtrl.SaveChangesAsync();
 
             var projects = await projectCtrl.GetAllAsync();
 
@@ -24,7 +25,7 @@ namespace QTProjectTeam.Logic.UnitTest
             }
             await projectCtrl.SaveChangesAsync();
         }
-        protected static int Counter = 0;
 
+        protected static int Counter = 0;
     }
 }
