@@ -120,7 +120,11 @@ Falls der Rest 10 beträgt, ist die Prüfziffer ein "X".
 23:11 = 11 Rest 2 ⇒ Prüfziffer: 2  
   
 Wenn die Projekt-Nummer nicht stimmt (ungültige Prüfziffer), dann wird eine Ausnahme geworfen.  
-  
+
+**Weitere gültige Projektnummern:**  
+
+851963589X 9100489158 6456363047 0340619112 2785439740 0256547386 7115559546 4859026640 6101751287 8379323203  
+
 #### Unit-Tests  
   
 All diese Geschäftsregeln müssen mit **UnitTests** überprüft werden. Fügen Sie dazu zur Lösung (Solution) ein Projekt mit dem Namen ***'QTProjectTeam.Logic.UnitTest'*** hinzu und implementieren Sie die Tests.  
