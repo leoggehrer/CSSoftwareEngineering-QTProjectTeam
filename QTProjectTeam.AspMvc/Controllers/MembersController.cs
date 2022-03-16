@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace QTProjectTeam.AspMvc.Controllers
+﻿namespace QTProjectTeam.AspMvc.Controllers
 {
     public class MembersController : GenericController<Logic.Entities.Member, Models.Member>
     {
